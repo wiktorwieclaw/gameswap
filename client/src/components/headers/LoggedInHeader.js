@@ -15,6 +15,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
+// TODO: merge headers and change the render output depending on state
+
 const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,

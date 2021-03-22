@@ -3,6 +3,8 @@ import {Button, Checkbox, FormControlLabel, Grid, Link, TextField} from "@materi
 import LoggedOutHeader from "../components/headers/LoggedOutHeader";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import {NavLink} from "react-router-dom";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -70,15 +72,17 @@ export default function SignIn() {
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
                             />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                                Sign In
-                            </Button>
+                            <NavLink to={"/main"}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                >
+                                    Sign In
+                                </Button>
+                            </NavLink>
                             <Grid container>
                                 <Grid item xs>
                                     <Link href="#" variant="body2">

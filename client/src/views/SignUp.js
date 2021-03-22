@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import LoggedOutHeader from "../components/headers/LoggedOutHeader";
+import {NavLink} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -95,15 +96,17 @@ export default function SignUp() {
                             />
                         </Grid>
                     </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign Up
-                    </Button>
+                    <NavLink to={"/main"}>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Sign Up
+                        </Button>
+                    </NavLink>
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link href="#" variant="body2">
