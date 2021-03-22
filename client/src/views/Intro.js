@@ -1,9 +1,7 @@
 import {makeStyles} from '@material-ui/core/styles'
 import {Card, CardActionArea, CardActions, Grid, Paper, Typography} from "@material-ui/core";
 import LoggedOutHeader from "../components/headers/LoggedOutHeader";
-import theme from "../theme";
 import Button from "@material-ui/core/Button";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import {NavLink} from "react-router-dom";
 
@@ -23,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     card: {
-        maxWidth: 345
+        maxWidth: 600
     }
 
 }))
@@ -57,12 +55,12 @@ export default function Intro() {
                             </CardContent>
                         </CardActionArea>
                         <CardActions>
-                            <NavLink to={"/login"}>
+                            <NavLink to={"/login"} style={{textDecoration: "none"}}>
                                 <Button size="small" color="primary">
-                                    Log In
+                                    Sign In
                                 </Button>
                             </NavLink>
-                            <NavLink to={"/signup"}>
+                            <NavLink to={"/signup"} style={{textDecoration: "none"}}>
                                 <Button size="small" color="primary">
                                     Sign Up
                                 </Button>

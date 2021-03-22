@@ -10,7 +10,7 @@ function App() {
       <Router>
           <CssBaseline/>
           <Switch>
-              <Route path="/" component={Intro}/>
+              <Route path="/" component={Intro} exact/>
               <Route path="/main" component={MainPage}/>
               <Route path="/login" component={SignIn}/>
               <Route path="/signup" component={SignUp}/>

@@ -72,7 +72,7 @@ export default function SignIn() {
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
                             />
-                            <NavLink to={"/main"}>
+                            <NavLink to={"/main"} style={{textDecoration: "none"}}>
                                 <Button
                                     type="submit"
                                     fullWidth

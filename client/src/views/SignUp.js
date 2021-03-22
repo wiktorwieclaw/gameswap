@@ -96,7 +96,7 @@ export default function SignUp() {
                             />
                         </Grid>
                     </Grid>
-                    <NavLink to={"/main"}>
+                    <NavLink to={"/main"} style={{textDecoration: "none"}}>
                         <Button
                             type="submit"
                             fullWidth

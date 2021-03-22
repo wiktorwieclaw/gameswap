@@ -20,13 +20,13 @@ export default function MainPage() {
             <Grid item container justify={"center"}>
                 <Grid item xs={0} sm={2}/>
                 <Grid item container direction={"column"} alignItems={"center"} xs={12} sm={8} spacing={4}>
-                    <Grid item>
+                    <Grid item sm={8}>
                         <Offer/>
                     </Grid>
-                    <Grid item>
+                    <Grid item sm={8}>
                         <Offer/>
                     </Grid>
-                    <Grid item>
+                    <Grid item sm={8}>
                         <Offer/>
                     </Grid>
                 </Grid>
