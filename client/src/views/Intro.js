@@ -1,9 +1,10 @@
 import {makeStyles} from '@material-ui/core/styles'
-import {Card, CardActionArea, CardActions, Grid, Paper, Typography} from "@material-ui/core";
+import {Card, CardActionArea, CardActions, Grid, Paper, SvgIcon, Typography} from "@material-ui/core";
 import LoggedOutHeader from "../components/headers/LoggedOutHeader";
 import Button from "@material-ui/core/Button";
 import CardContent from "@material-ui/core/CardContent";
 import {NavLink} from "react-router-dom";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
@@ -16,14 +17,29 @@ const useStyles = makeStyles((theme) => ({
     },
     text: {
         fontSize: '3.2rem',
-        [theme.breakpoints.down('xs')]:{
+        [theme.breakpoints.down('xs')]: {
             fontSize: '2rem'
         }
     },
-    card: {
-        maxWidth: 600
-    }
+    main: {
+        margin: "auto",
+        alignItems: "center",
 
+    },
+    card: {
+        height: 300,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between"
+    },
+    welcome: {
+        height: "100%",
+    },
+    image: {
+        width: "100%",
+        height: "100%",
+        objectFit: "contain"
+    }
 }))
 
 export default function Intro() {
@@ -36,24 +52,22 @@ export default function Intro() {
                 <div className={classes.toolbar}/>
                 <br/>
             </Grid>
-            <Grid item container justify={"center"} style={{margin: "auto"}}>
-                <Grid item xs={1}/>
-                <Grid item xs={6}>
+            <Grid item container justify={"center"} className={classes.main}>
+                <Grid item md={1} xs={0}/>
+                <Grid item md={4} xs={8}>
                     <Card className={classes.card}>
-                        <CardActionArea>
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    gameswap
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary" component="p">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                    when an unknown printer took a galley of type and scrambled
-                                    it to make a type specimen book. It has survived not only five centuries,
-                                    but also the leap into electronic typesetting, remaining essentially unchanged.
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
+                        <CardContent>
+                            <Typography gutterBottom variant="h4" component="h2">
+                                gameswap
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                when an unknown printer took a galley of type and scrambled
+                                it to make a type specimen book. It has survived not only five centuries,
+                                but also the leap into electronic typesetting, remaining essentially unchanged.
+                            </Typography>
+                        </CardContent>
                         <CardActions>
                             <NavLink to={"/login"} style={{textDecoration: "none"}}>
                                 <Button size="small" color="primary">
@@ -68,11 +82,19 @@ export default function Intro() {
                         </CardActions>
                     </Card>
                 </Grid>
-                <Grid item xs={5}/>
-            </Grid>
-                <Grid item xs={12}>
+                <Grid item md={1} xs={12}>
                     <br/>
                 </Grid>
+                <Grid item md={5} xs={10}>
+                    <Container className={classes.welcome}>
+                        <img
+                            className={classes.image}
+                            src={require("../images/welcome.svg").default}
+                        />
+                    </Container>
+                </Grid>
+                <Grid item md={1} xs={0}/>
+            </Grid>
         </Grid>
     );
 }
