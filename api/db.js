@@ -17,3 +17,16 @@ module.exports = new Sequelize(dbAccess.uri, {
         idle: 10000
     }
 });
+
+const user = require('./models/user.model.js');
+const userDetails = require('./models/user-details.model.js');
+const game = require('./models/game.model.js');
+const post = require('./models/post.model.js');
+
+userDetails.hasOne(user, {
+    foreignKey: {
+        name: 'userDetailsId',
+        allowNull: false
+    }
+});
+

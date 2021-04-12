@@ -13,7 +13,7 @@ db.sync({ force: true }).then(() => {
 
 const app = express();
 app.get('/', (req, res) => res.send('index'));
-app.use('/games', require('./routes/games.js'));
+app.use('/games', require('./routes/game.route.js'));
 
 const port = 3001;
 app.listen(port, () => {

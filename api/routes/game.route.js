@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db.js');
-const Game = require('../models/Game');
+const game = require('../models/game.model.js');
 
 router.get('/', (req, res) => {
-    Game.findAll()
+    game.findAll()
         .then(games => console.log(games))
         .catch(err => console.log(err));
 });
