@@ -4,7 +4,7 @@ import LoggedOutHeader from "../components/headers/LoggedOutHeader";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import {NavLink} from "react-router-dom";
-import React from "react";
+import React, {useState} from "react";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -29,6 +29,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
     const classes = useStyles()
+    const [mail, setMail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSubmit = e => {
+        //e.preventDefault(); // todo
+        const req = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({mail, password})
+        }
+
+        fetch('http://localhost:3001/login', req)
+            .then(res => {
+                return res.json();
+            })
+            .then(json => console.log(json));
+    }
 
     return (
         <Grid container direction={"column"}>
@@ -56,6 +73,8 @@ export default function SignIn() {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
+                                value={mail}
+                                onChange={e => setMail(e.target.value)}
                             />
                             <TextField
                                 variant="outlined"
@@ -67,6 +86,8 @@ export default function SignIn() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
@@ -79,6 +100,7 @@ export default function SignIn() {
                                     variant="contained"
                                     color="primary"
                                     className={classes.submit}
+                                    onClick={handleSubmit}
                                 >
                                     Sign In
                                 </Button>
@@ -98,7 +120,7 @@ export default function SignIn() {
                         </form>
                     </div>
                 </Grid>
-                <Grid item xs={0} sm={2}/>
+                <Grid item xs={false} sm={2}/>
             </Grid>
         </Grid>
     )

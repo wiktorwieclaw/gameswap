@@ -30,3 +30,5 @@ userDetails.hasOne(user, {
     }
 });
 
+
+
