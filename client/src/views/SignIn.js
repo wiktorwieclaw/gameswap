@@ -37,7 +37,7 @@ export default function SignIn() {
         const req = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({mail, password})
+            body: JSON.stringify({mail: mail, password: password})
         }
 
         fetch('http://localhost:3001/login', req)

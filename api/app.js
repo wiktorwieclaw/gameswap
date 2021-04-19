@@ -2,12 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser/');
 const Sequelize = require('sequelize');
 const db = require('./db.js');
+const userController = require('./controllers/user.controller');
 
 db.authenticate()
     .then(() => console.log('db connected'))
     .catch(err => console.log('error: ' + err))
 
-db.sync({ force: true }).then(() => {
+db.sync({ force: false }).then(() => {
   console.log("[server]Drop and re-sync database.");
 });
 
@@ -24,9 +25,11 @@ app.get('/', (req, res) => res.send('index'));
 app.use('/games', require('./routes/game.route.js'));
 
 app.post('/login', (req, res) => {
-  console.log('login req: ' + req.body);
-  res.json({test: "test"});
+  console.log(`login req: mail: ${req.body.mail}, password: ${req.body.password}`);
+  res.json({test: "mail and password received"});
 });
+
+app.post('/signup', userController.create);
 
 const port = 3001;
 app.listen(port, () => {
