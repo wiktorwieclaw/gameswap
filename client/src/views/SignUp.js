@@ -33,15 +33,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
     const classes = useStyles();
-    const [mail, setMail] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
 
     const handleSubmit = e => {
         //e.preventDefault(); // todo
         const req = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({mail: mail, password: password})
+            body: JSON.stringify({
+                email: email,
+                password: password,
+                name: name,
+                surname: surname
+            })
         }
 
         fetch('http://localhost:3001/signup', req)
@@ -76,6 +83,8 @@ export default function SignUp() {
                                 id="firstName"
                                 label="First Name"
                                 autoFocus
+                                value={name}
+                                onChange={e => setName(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -87,6 +96,8 @@ export default function SignUp() {
                                 label="Last Name"
                                 name="lastName"
                                 autoComplete="lname"
+                                value={surname}
+                                onChange={e => setSurname(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -98,8 +109,8 @@ export default function SignUp() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
-                                value={mail}
-                                onChange={e => setMail(e.target.value)}
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>

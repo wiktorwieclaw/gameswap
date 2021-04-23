@@ -1,12 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const db = require('../db.js');
-const user = require('../models/user.model.js');
+const router = require('express').Router();
+const userController = require('../controllers/user.controller.js');
 
 router.get('/', (req, res) => {
-    user.findAll()
-        .then(users => console.log(users))
-        .catch(err => console.log(err));
+
 });
+
+router.get('/email/:email', userController.findByEmail);
 
 module.exports = router;
