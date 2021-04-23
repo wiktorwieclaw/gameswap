@@ -23,6 +23,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/user', require('./routes/user.route.js'));
+app.use('/game', require('./routes/game.route.js'));
+
 
 app.post('/login', (req, res) => {
   console.log(`login req: mail: ${req.body.mail}, password: ${req.body.password}`);

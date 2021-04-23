@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db.js');
-const game = require('../models/game.model.js');
+const gameController = require('../controllers/game.controller.js');
 
-router.get('/', (req, res) => {
-    game.findAll()
-        .then(games => console.log(games))
-        .catch(err => console.log(err));
-});
+router.get('/title/:title', gameController.findByTitle);
 
 module.exports = router;

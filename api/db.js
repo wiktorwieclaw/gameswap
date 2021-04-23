@@ -1,5 +1,6 @@
 const dbAccess = require('./db-access.js');
 const Sequelize = require('sequelize');
+const gameController = require('./controllers/game.controller');
 
 module.exports = new Sequelize(dbAccess.uri, {
     host: 'localhost',
