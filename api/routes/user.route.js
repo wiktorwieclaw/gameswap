@@ -6,5 +6,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/email/:email', userController.findByEmail);
+router.get('/id/:id', userController.findByPk);
 
 module.exports = router;

@@ -19,6 +19,18 @@ module.exports.create = (req, res) => {
         });
 };
 
+module.exports.findByPk = (req, res) => {
+    user.findByPk(req.params.id)
+        .then(data => {
+            console.log(data.dataValues);
+            res.send(data.dataValues);
+        }).catch(err => {
+        res.status(500).send({
+            message: err.message
+        });
+    });
+}
+
 module.exports.findByEmail = (req, res) => {
     const email = req.params.email;
     console.log(email);

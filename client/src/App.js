@@ -16,7 +16,7 @@ function App() {
               <Route path="/login" component={SignIn}/>
               <Route path="/signup" component={SignUp}/>
               <Route path="/intro" component={Intro}/>
-              <Route path="/account" component={Account}/>
+              <Route path="/account/:id" component={Account}/>
           </Switch>
       </Router>
   );
