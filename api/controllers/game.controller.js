@@ -1,21 +1,14 @@
-const axios = require('axios');
 const dbAccess = require('../db-access');
+const igdb = require('igdb-api-node').default;
 
-module.exports.findByTitle = (req, res) => {
-    axios({
-        url: "https://api.igdb.com/v4/games",
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Client-ID': dbAccess.twitchClientId,
-            'Authorization': `Bearer ${access.access_token}`,
-        },
-        data: `fields name; search "${req.body}"; limit 50;`
-    })
-        .then(response => {
-            res.send(response.data)
-        })
-        .catch(err => {
-            console.error(err);
-        });
+const client = igdb(dbAccess.twitchClientId, dbAccess.accessToken);
+
+module.exports.findByTitle = async (req, res) => {
+    const response = await client
+        .fields(['name'])
+        .limit(50)
+        .search(req.params.title)
+        .request('/games');
+
+    res.send(response.data);
 }

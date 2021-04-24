@@ -10,12 +10,6 @@ const useStyles = makeStyles((theme) => ({
 export default function MainPage() {
     const classes = useStyles();
 
-    fetch('http://localhost:3001/game/title/sonic', req)
-        .then(res => {
-            return res.json();
-        })
-        .then(json => console.log(json));
-
     return (
         <Grid container direction={"column"}>
             <Grid item xs={12}>
