@@ -59,7 +59,7 @@ export default function Account(props) {
                     </Grid>
                 </Grid>
                 <Grid item xs={12} sm={5} style={isMobile ? {marginTop: "2rem"} : {marginLeft: "2rem"}}>
-                    <ListOfOffers/>
+                    <ListOfOffers userId={userId}/>
                 </Grid>
             </Grid>
         </Grid>

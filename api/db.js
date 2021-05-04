@@ -1,6 +1,5 @@
 const dbAccess = require('./db-access.js');
 const Sequelize = require('sequelize');
-const gameController = require('./controllers/game.controller');
 
 module.exports = new Sequelize(dbAccess.uri, {
     host: 'localhost',
@@ -23,10 +22,7 @@ const user = require('./models/user.model.js');
 const game = require('./models/game.model.js');
 const post = require('./models/post.model.js');
 const message = require('./models/message.model.js');
-
-user.belongsToMany(game, {
-    through: 'userBuyGame'
-});
+const userBuyGame = require('./models/user-buy-game.model.js');
 
 user.hasOne(message, {
     foreignKey: {
@@ -42,14 +38,10 @@ user.hasOne(message, {
     }
 });
 
-game.belongsToMany(user, {
-    through: 'userBuyGame'
-});
-
 user.belongsToMany(game, {
-    through: 'userSellGame'
+    through: userBuyGame
 });
 
 game.belongsToMany(user, {
-    through: 'userSellGame'
+    through: userBuyGame
 });

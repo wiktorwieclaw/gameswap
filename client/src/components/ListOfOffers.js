@@ -2,9 +2,10 @@ import {AppBar, Box, Card, List, ListItem, ListItemText, Tab, Tabs, Typography} 
 import SwipeableViews from "react-swipeable-views";
 import theme from "../theme";
 import Grid from "@material-ui/core/Grid";
-import React from "react";
+import React, {useEffect} from "react";
 import * as PropTypes from "prop-types";
 import {makeStyles} from "@material-ui/core/styles";
+import axios from "axios";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -45,12 +46,25 @@ const useStyles = makeStyles((theme) => ({
 export default function ListOfOffers(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+    const [gameList, setGameList] = React.useState([]);
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     const handleChangeIndex = (index) => {
         setValue(index);
     };
+
+    useEffect(() => {
+        axios.get(`/game/byUserId/${props.userId}`)
+            .then(res => {
+                console.log(res.data);
+                setGameList(res.data);
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    });
 
     return (
         <div>
@@ -74,36 +88,15 @@ export default function ListOfOffers(props) {
                 >
                     <TabPanel value={value} index={0} dir={theme.direction}>
                         <List component={"nav"}>
-                            {/*{*/}
-                            {/*    props.list.map((elem, index) => {*/}
-                            {/*        return (*/}
-                            {/*        <ListItem button key={index}>*/}
-                            {/*            <ListItemText primary={"i hate this"}/>*/}
-                            {/*        </ListItem>*/}
-                            {/*        );*/}
-                            {/*    })*/}
-                            {/*}*/}
-                            <ListItem button>
-                                <ListItemText primary={"i hate this"}/>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemText primary={"i hate this"}/>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemText primary={"i hate this"}/>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemText primary={"i hate this"}/>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemText primary={"i hate this"}/>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemText primary={"i hate this"}/>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemText primary={"i hate this"}/>
-                            </ListItem>
+                            {
+                                gameList.map((elem, index) => {
+                                    return (
+                                    <ListItem button key={index}>
+                                        <ListItemText primary={elem.name}/>
+                                    </ListItem>
+                                    );
+                                })
+                            }
                         </List>
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
