@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./db.js');
+const cors = require('cors');
 const app = express();
 const port = 3001;
 
@@ -13,12 +14,10 @@ db.sync({ force: false }).then(() => {
 });
 
 app.use(bodyParser.json());
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
 app.use('/user', require('./routes/user.routes.js'));
 app.use('/game', require('./routes/game.routes.js'));

@@ -1,23 +1,30 @@
-const user = require('../models/user.model');
+const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dbAccess = require('../db-access');
 const joi = require('joi');
 
+const minChars = {
+    email: 6,
+    password: 6,
+    name: 6,
+    surname: 6
+};
+
 function registerValidation(data) {
     const schema = joi.object({
         email: joi.string()
-            .min(6)
+            .min(minChars.email)
             .email()
             .required(),
         password: joi.string()
-            .min(6)
+            .min(minChars.password)
             .required(),
         name: joi.string()
-            .min(6)
+            .min(minChars.name)
             .required(),
         surname: joi.string()
-            .min(6)
+            .min(minChars.surname)
             .required()
     });
 
@@ -27,11 +34,11 @@ function registerValidation(data) {
 function loginValidation(data) {
     const schema = joi.object({
         email: joi.string()
-            .min(6)
+            .min(minChars.email)
             .required()
             .email(),
         password: joi.string()
-            .min(6)
+            .min(minChars.password)
             .required()
     });
 
@@ -47,7 +54,7 @@ async function register(req, res) {
     const {error} = registerValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const emailExists = user.findOne({where: {email: req.body.email}});
+    const emailExists = User.findOne({where: {email: req.body.email}});
     if (emailExists !== undefined) {
         return res.status(400).send('email already exists');
     }
@@ -59,7 +66,7 @@ async function register(req, res) {
         surname: req.body.surname
     };
 
-    user.create(newUser)
+    User.create(newUser)
         .then(data => {
             res.send(data);
         })
@@ -79,7 +86,7 @@ async function login(req, res) {
         return res.status(400).send(message);
     }
 
-    const foundUser = await user.findOne({where: {email: req.body.email}});
+    const foundUser = await User.findOne({where: {email: req.body.email}});
 
     if (!foundUser) {
         return res.status(400).send("email doesn't exist");
@@ -90,8 +97,15 @@ async function login(req, res) {
         return res.status(400).send('Invalid password');
     }
 
-    const token = jwt.sign({id: user.id}, dbAccess.tokenSecret);
-    res.header('auth-token', token).send(token);
+    const token = jwt.sign({id: foundUser.id}, dbAccess.tokenSecret);
+
+    res.header('auth-token', token)
+        .cookie('jwt', token, {
+           httpOnly: false,
+           secure: false,
+           sameSite: false
+        })
+        .send(foundUser);
 }
 
 module.exports = {

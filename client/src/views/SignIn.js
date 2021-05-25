@@ -3,8 +3,9 @@ import {Button, Checkbox, FormControlLabel, Grid, Link, TextField} from "@materi
 import LoggedOutHeader from "../components/headers/LoggedOutHeader";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import {NavLink} from "react-router-dom";
 import React, {useState} from "react";
+import {login} from "../common"
+import {useHistory} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.primary.main,
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%', // Fixes IE 11 issue.
         marginTop: theme.spacing(1),
     },
     submit: {
@@ -28,23 +29,20 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function SignIn() {
+    const history = useHistory();
     const classes = useStyles()
-    const [mail, setMail] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = e => {
-        //e.preventDefault(); // todo
-        const req = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({mail: mail, password: password})
-        }
+        e.preventDefault();
 
-        fetch('http://localhost:3001/login', req)
-            .then(res => {
-                return res.json();
+        login(email, password)
+            .then(() => {
+                history.push('/main');
             })
-            .then(json => console.log(json));
+            .catch(err => {console.log(err); setErrorMsg(err.response.data)});
     }
 
     return (
@@ -62,6 +60,9 @@ export default function SignIn() {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
+                        <Typography component="h2" variant="h6" color={'error'}>
+                            { errorMsg }
+                        </Typography>
                         <form className={classes.form} noValidate>
                             <TextField
                                 variant="outlined"
@@ -73,8 +74,8 @@ export default function SignIn() {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
-                                value={mail}
-                                onChange={e => setMail(e.target.value)}
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
                             />
                             <TextField
                                 variant="outlined"
@@ -93,18 +94,15 @@ export default function SignIn() {
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
                             />
-                            <NavLink to={"/main"} style={{textDecoration: "none"}}>
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}
-                                    onClick={handleSubmit}
-                                >
-                                    Sign In
-                                </Button>
-                            </NavLink>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={handleSubmit}
+                            >
+                                Sign In
+                            </Button>
                             <Grid container>
                                 <Grid item xs>
                                     <Link href="#" variant="body2">
