@@ -1,10 +1,8 @@
 const express = require('express');
-const bodyParser = require('body-parser/');
-const Sequelize = require('sequelize');
+const bodyParser = require('body-parser');
 const db = require('./db.js');
 const app = express();
 const port = 3001;
-const userController = require('./controllers/user.controller.js'); //todo
 
 db.authenticate()
     .then(() => console.log('db connected'))
@@ -24,20 +22,7 @@ app.use((req, res, next) => {
 
 app.use('/user', require('./routes/user.routes.js'));
 app.use('/game', require('./routes/game.routes.js'));
-
-
-app.post('/login', (req, res) => {
-  console.log(`login req: mail: ${req.body.mail}, password: ${req.body.password}`);
-  res.json({test: "mail and password received"});
-});
-
-app.post('/signup', userController.create); // todo
-
-
-// tutorial starts here
-const authRoute = require('./routes/auth.routes');
-
-app.use('/api/user/', authRoute);
+app.use('/auth', require('./routes/auth.routes'));
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}.`);

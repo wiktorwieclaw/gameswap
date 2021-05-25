@@ -1,5 +1,5 @@
 const dbAccess = require('./db-access.js');
-const Sequelize = require('sequelize');
+const { Sequelize } = require('sequelize');
 
 module.exports = new Sequelize(dbAccess.uri, {
     host: 'localhost',
