@@ -33,6 +33,12 @@ app.post('/login', (req, res) => {
 
 app.post('/signup', userController.create); // todo
 
+
+// tutorial starts here
+const authRoute = require('./routes/auth.route');
+
+app.use('/api/user/', authRoute);
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}.`);
 });

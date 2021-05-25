@@ -20,7 +20,6 @@ module.exports = new Sequelize(dbAccess.uri, {
 
 const user = require('./models/user.model.js');
 const game = require('./models/game.model.js');
-const post = require('./models/post.model.js');
 const message = require('./models/message.model.js');
 const userBuyGame = require('./models/user-buy-game.model.js');
 

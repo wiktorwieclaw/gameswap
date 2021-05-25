@@ -21,8 +21,5 @@ module.exports = db.define('user', {
         type: Sequelize.STRING,
         unique: false,
         allowNull: false
-    },
-    location: {
-        type: Sequelize.STRING // TODO find api
     }
 });

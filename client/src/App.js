@@ -5,6 +5,7 @@ import Intro from './views/Intro'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import {CssBaseline} from "@material-ui/core";
 import Account from "./views/Account";
+import AddGame from "./views/AddGame";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
               <Route path="/signup" component={SignUp}/>
               <Route path="/intro" component={Intro}/>
               <Route path="/account/:id" component={Account}/>
+              <Route path="/add-game" component={AddGame}/>
           </Switch>
       </Router>
   );
