@@ -11,7 +11,7 @@ db.authenticate()
     .catch(err => console.log('error: ' + err))
 
 db.sync({ force: false }).then(() => {
-  console.log("[server]Drop and re-sync database.");
+  console.log("Drop and re-sync database.");
 });
 
 app.use(bodyParser.json());
@@ -22,8 +22,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/user', require('./routes/user.route.js'));
-app.use('/game', require('./routes/game.route.js'));
+app.use('/user', require('./routes/user.routes.js'));
+app.use('/game', require('./routes/game.routes.js'));
 
 
 app.post('/login', (req, res) => {
@@ -35,7 +35,7 @@ app.post('/signup', userController.create); // todo
 
 
 // tutorial starts here
-const authRoute = require('./routes/auth.route');
+const authRoute = require('./routes/auth.routes');
 
 app.use('/api/user/', authRoute);
 

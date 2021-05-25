@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const gameController = require('../controllers/game.controller.js');
 
 router.get('/title/:title', gameController.findByTitle);

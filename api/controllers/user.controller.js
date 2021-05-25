@@ -1,6 +1,6 @@
 const user = require('../models/user.model');
 
-module.exports.create = (req, res) => {
+async function create(req, res) {
     const newUser = {
         email: req.body.email,
         password: req.body.password,
@@ -17,9 +17,9 @@ module.exports.create = (req, res) => {
                 messages: err.message
             });
         });
-};
+}
 
-module.exports.findByPk = (req, res) => {
+async function findByPk(req, res) {
     user.findByPk(req.params.id)
         .then(data => {
             console.log(data.dataValues);
@@ -31,7 +31,7 @@ module.exports.findByPk = (req, res) => {
     });
 }
 
-module.exports.findByEmail = (req, res) => {
+async function findByEmail(req, res) {
     const email = req.params.email;
     console.log(email);
 
@@ -46,4 +46,10 @@ module.exports.findByEmail = (req, res) => {
             message: err.message
         });
     });
+}
+
+module.exports = {
+    create,
+    findByPk,
+    findByEmail
 }

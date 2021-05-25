@@ -5,7 +5,7 @@ const user = require('../models/user.model.js');
 
 const client = igdb(dbAccess.twitchClientId, dbAccess.accessToken);
 
-module.exports.findByTitle = async (req, res) => {
+async function findByTitle(req, res) {
     const response = await client
         .fields(['name'])
         .limit(50)
@@ -15,7 +15,7 @@ module.exports.findByTitle = async (req, res) => {
     res.send(response.data);
 }
 
-module.exports.findById = async (req, res) => {
+async function findById(req, res) {
     const response = await client
         .fields(['name'])
         .where(`id = ${req.params.id}`)
@@ -24,7 +24,7 @@ module.exports.findById = async (req, res) => {
     res.send(response.data);
 }
 
-module.exports.findGamesByUserPk = (req, res) => {
+async function findGamesByUserPk(req, res) {
     user.findOne({
         include: [{
             model: game,
@@ -57,4 +57,10 @@ module.exports.findGamesByUserPk = (req, res) => {
             message: err.message
         });
     });
+}
+
+module.exports = {
+    findById,
+    findByTitle,
+    findGamesByUserPk
 }
