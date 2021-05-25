@@ -33,6 +33,7 @@ router.post('/register', async (req, res) => {
             res.send(data);
         })
         .catch(err => {
+            console.log(err.message);
             res.status(500).send({
                 messages: err.message
             });

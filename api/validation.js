@@ -4,8 +4,8 @@ module.exports.registerValidation = data => {
     const schema = joi.object({
         email: joi.string()
             .min(6)
-            .required()
-            .email(),
+            .email()
+            .required(),
         password: joi.string()
             .min(6)
             .required(),
@@ -17,7 +17,7 @@ module.exports.registerValidation = data => {
             .required()
     });
 
-    return schema.validate(data.body);
+    return schema.validate(data);
 }
 
 module.exports.loginValidation = data => {
@@ -31,5 +31,5 @@ module.exports.loginValidation = data => {
             .required()
     });
 
-    return schema.validate(data.body);
+    return schema.validate(data);
 }
