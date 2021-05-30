@@ -1,5 +1,5 @@
 import {Button, Checkbox, FormControlLabel, Grid, Link, TextField} from "@material-ui/core";
-import LoggedOutHeader from "../components/headers/LoggedOutHeader";
+import Header from "../components/Header";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import React, {useState} from "react";
@@ -27,8 +27,7 @@ export default function SignIn() {
     return (
         <Grid container direction={"column"}>
             <Grid item xs={12}>
-                <LoggedOutHeader/>
-                <div className={classes.toolbar}/>
+                <Header/>
             </Grid>
             <Grid item container justify={"center"}>
                 <Grid item xs={0} sm={2}/>

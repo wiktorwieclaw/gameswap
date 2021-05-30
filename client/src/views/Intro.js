@@ -1,10 +1,10 @@
 import {makeStyles} from '@material-ui/core/styles'
-import {Card, CardActionArea, CardActions, Grid, Paper, SvgIcon, Typography} from "@material-ui/core";
-import LoggedOutHeader from "../components/headers/LoggedOutHeader";
+import {Card, CardActions, Grid, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import CardContent from "@material-ui/core/CardContent";
 import {NavLink} from "react-router-dom";
 import Container from "@material-ui/core/Container";
+import Header from "../components/Header";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
@@ -48,9 +48,7 @@ export default function Intro() {
     return (
         <Grid className={classes.root} container direction={"column"}>
             <Grid item xs={12}>
-                <LoggedOutHeader/>
-                <div className={classes.toolbar}/>
-                <br/>
+                <Header/>
             </Grid>
             <Grid item container justify={"center"} className={classes.main}>
                 <Grid item md={1} xs={0}/>

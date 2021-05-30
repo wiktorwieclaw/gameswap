@@ -17,6 +17,5 @@ export const useFormStyles = makeStyles(theme => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
-    },
-    toolbar: theme.mixins.toolbar
+    }
 }));

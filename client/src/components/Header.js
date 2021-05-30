@@ -14,6 +14,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import {useHistory} from "react-router";
+import {NavLink} from "react-router-dom";
 
 // TODO: merge headers and change the render output depending on state
 
@@ -24,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
     },
+    titleLink: {
+        textDecoration: "none",
+        color: "black"
+    },
     title: {
         display: 'none',
         [theme.breakpoints.up('sm')]: {
@@ -31,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     search: {
-        position: 'relative',
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
         '&:hover': {
@@ -44,11 +49,12 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: theme.spacing(3),
             width: 'auto',
         },
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-start"
     },
     searchIcon: {
         padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
         pointerEvents: 'none',
         display: 'flex',
         alignItems: 'center',
@@ -59,8 +65,6 @@ const useStyles = makeStyles((theme) => ({
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
@@ -79,27 +83,30 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
         },
     },
+    loggedIn: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "100%",
+        alignItems: "center"
+    },
+    toolbar: theme.mixins.toolbar
 }));
 
-export default function LoggedInHeader() {
+export default function Header() {
+    const isLoggedIn = true; // todo
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const history = useHistory();
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-    const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
+    const handleProfileMenuOpen = () => {
+        history.push('/account/1') // todo change number
     };
 
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-        handleMobileMenuClose();
     };
 
     const handleMobileMenuOpen = (event) => {
@@ -107,20 +114,6 @@ export default function LoggedInHeader() {
     };
 
     const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-        </Menu>
-    );
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
@@ -164,7 +157,7 @@ export default function LoggedInHeader() {
     );
 
     return (
-        <div className={classes.grow}>
+        <div>
             <AppBar position="fixed">
                 <Toolbar>
                     <IconButton
@@ -175,60 +168,69 @@ export default function LoggedInHeader() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        gameswap
-                    </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
-                    <div className={classes.grow} />
-                    <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <MailIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton aria-label="show 17 new notifications" color="inherit">
-                            <Badge badgeContent={17} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                    </div>
-                    <div className={classes.sectionMobile}>
-                        <IconButton
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
-                        </IconButton>
-                    </div>
+                    <NavLink to={isLoggedIn ? '/main' : '/intro'} className={classes.titleLink}>
+                        <Typography className={classes.title} variant="h6" noWrap>
+                            gameswap
+                        </Typography>
+                    </NavLink>
+                    {
+                        isLoggedIn ?
+                            <div className={classes.loggedIn}>
+                                <div className={classes.search}>
+                                    <div className={classes.searchIcon}>
+                                        <SearchIcon/>
+                                    </div>
+                                    <InputBase
+                                        placeholder="Search…"
+                                        classes={{
+                                            root: classes.inputRoot,
+                                            input: classes.inputInput,
+                                        }}
+                                        inputProps={{'aria-label': 'search'}}
+                                    />
+                                </div>
+                                {/*<div className={classes.grow}/>*/}
+                                <div className={classes.sectionDesktop}>
+                                    <IconButton aria-label="show 4 new mails" color="inherit">
+                                        <Badge badgeContent={4} color="secondary">
+                                            <MailIcon/>
+                                        </Badge>
+                                    </IconButton>
+                                    <IconButton aria-label="show 17 new notifications" color="inherit">
+                                        <Badge badgeContent={17} color="secondary">
+                                            <NotificationsIcon/>
+                                        </Badge>
+                                    </IconButton>
+                                    <IconButton
+                                        edge="end"
+                                        aria-label="account of current user"
+                                        aria-controls={menuId}
+                                        aria-haspopup="true"
+                                        onClick={handleProfileMenuOpen}
+                                        color="inherit"
+                                    >
+                                        <AccountCircle/>
+                                    </IconButton>
+                                </div>
+                                <div className={classes.sectionMobile}>
+                                    <IconButton
+                                        aria-label="show more"
+                                        aria-controls={mobileMenuId}
+                                        aria-haspopup="true"
+                                        onClick={handleMobileMenuOpen}
+                                        color="inherit"
+                                    >
+                                        <MoreIcon/>
+                                    </IconButton>
+                                </div>
+                            </div>
+                        :
+                            <div/>
+                    }
                 </Toolbar>
             </AppBar>
+            <div style={{paddingBottom: "25px"}}/>
             {renderMobileMenu}
-            {renderMenu}
         </div>
     );
 }

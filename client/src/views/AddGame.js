@@ -1,7 +1,7 @@
 import {makeStyles} from '@material-ui/core/styles'
 import Grid from "@material-ui/core/Grid";
 import {Card, TextField, Typography, useMediaQuery} from "@material-ui/core";
-import LoggedInHeader from "../components/headers/LoggedInHeader";
+import Header from "../components/Header";
 import React, {useEffect, useState} from 'react';
 import ListOfOffers from '../components/ListOfOffers.js';
 import axios from 'axios';
@@ -54,7 +54,7 @@ export default function Account(props) {
     return (
         <Grid container className={"root"} direction={"column"} alignItems={"center"}>
             <Grid item xs={12}>
-                <LoggedInHeader/>
+                <Header/>
                 <div className={classes.toolbar}/>
                 <br/>
             </Grid>

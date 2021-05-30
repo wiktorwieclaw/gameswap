@@ -1,11 +1,11 @@
 import {makeStyles} from '@material-ui/core/styles'
-import LoggedInHeader from "../components/headers/LoggedInHeader";
+import Header from "../components/Header";
 import Offer from "../components/Offer"
 import {Grid} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar
-}))
+}));
 
 export default function MainPage() {
     const classes = useStyles();
@@ -13,7 +13,7 @@ export default function MainPage() {
     return (
         <Grid container direction={"column"}>
             <Grid item xs={12}>
-                <LoggedInHeader/>
+                <Header/>
                 <div className={classes.toolbar}/>
                 <br/>
             </Grid>

@@ -7,10 +7,10 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import LoggedOutHeader from "../components/headers/LoggedOutHeader";
 import {register} from "../common"
 import {useHistory} from "react-router";
 import {useFormStyles} from "../styles";
+import Header from "../components/Header";
 
 export default function SignUp() {
     const classes = useFormStyles();
@@ -34,10 +34,7 @@ export default function SignUp() {
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
             <div className={classes.paper}>
-                <div>
-                    <LoggedOutHeader/>
-                    <div className={classes.toolbar}/>
-                </div>
+                <Header/>
                 <Avatar className={classes.avatar}/>
                 <Typography component="h1" variant="h5">
                     Sign up
