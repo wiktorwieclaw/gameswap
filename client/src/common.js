@@ -9,6 +9,13 @@ export function login(email, password) {
     );
 }
 
+export function register(name, surname, email, password) {
+    return axios.post(
+        'http://localhost:3001/auth/register',
+        {name: name, surname: surname, email: email, password: password}
+    );
+}
+
 export function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);

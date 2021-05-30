@@ -1,4 +1,3 @@
-import {makeStyles} from "@material-ui/core/styles";
 import {Button, Checkbox, FormControlLabel, Grid, Link, TextField} from "@material-ui/core";
 import LoggedOutHeader from "../components/headers/LoggedOutHeader";
 import Avatar from "@material-ui/core/Avatar";
@@ -6,31 +5,11 @@ import Typography from "@material-ui/core/Typography";
 import React, {useState} from "react";
 import {login} from "../common"
 import {useHistory} from "react-router";
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.primary.main,
-    },
-    form: {
-        width: '100%', // Fixes IE 11 issue.
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-    toolbar: theme.mixins.toolbar
-}))
+import {useFormStyles} from "../styles";
 
 export default function SignIn() {
     const history = useHistory();
-    const classes = useStyles()
+    const classes = useFormStyles();
     const [errorMsg, setErrorMsg] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -42,15 +21,14 @@ export default function SignIn() {
             .then(() => {
                 history.push('/main');
             })
-            .catch(err => {console.log(err); setErrorMsg(err.response.data)});
-    }
+            .catch(err => {setErrorMsg(err.response.data)});
+    };
 
     return (
         <Grid container direction={"column"}>
             <Grid item xs={12}>
                 <LoggedOutHeader/>
                 <div className={classes.toolbar}/>
-                <br/>
             </Grid>
             <Grid item container justify={"center"}>
                 <Grid item xs={0} sm={2}/>
@@ -103,14 +81,9 @@ export default function SignIn() {
                             >
                                 Sign In
                             </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
+                            <Grid container direction={"column"}>
                                 <Grid item>
-                                    <Link href="#" variant="body2">
+                                    <Link href="/signup">
                                         {"Don't have an account? Sign Up"}
                                     </Link>
                                 </Grid>

@@ -6,70 +6,44 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import LoggedOutHeader from "../components/headers/LoggedOutHeader";
-import {NavLink} from "react-router-dom";
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.primary.main,
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-}))
+import {register} from "../common"
+import {useHistory} from "react-router";
+import {useFormStyles} from "../styles";
 
 export default function SignUp() {
-    const classes = useStyles();
+    const classes = useFormStyles();
+    const history = useHistory();
+    const [errorMsg, setErrorMsg] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
 
     const handleSubmit = e => {
-        //e.preventDefault(); // todo
-        const req = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                email: email,
-                password: password,
-                name: name,
-                surname: surname
+        e.preventDefault();
+        register(name, surname, email, password)
+            .then(() => {
+                history.push('/login');
             })
-        }
-
-        fetch('http://localhost:3001/signup', req)
-            .then(res => {
-                return res.json();
-            })
-            .then(json => console.log(json));
-    }
+            .catch(err => {setErrorMsg(err.response.data)});
+    };
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
+            <CssBaseline/>
             <div className={classes.paper}>
                 <div>
                     <LoggedOutHeader/>
                     <div className={classes.toolbar}/>
-                    <br/>
                 </div>
                 <Avatar className={classes.avatar}/>
                 <Typography component="h1" variant="h5">
                     Sign up
+                </Typography>
+                <Typography component="h2" variant="h6" color={'error'}>
+                    { errorMsg }
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -128,21 +102,19 @@ export default function SignUp() {
                             />
                         </Grid>
                     </Grid>
-                    <NavLink to={"/main"} style={{textDecoration: "none"}}>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                            onClick={handleSubmit}
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={handleSubmit}
                         >
-                            Sign Up
-                        </Button>
-                    </NavLink>
-                    <Grid container justify="flex-end">
+                        Sign Up
+                    </Button>
+                    <Grid container justify="flex-start">
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/login" variant="body2">
                                 Already have an account? Sign in
                             </Link>
                         </Grid>
