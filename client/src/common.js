@@ -31,3 +31,12 @@ export function getCookie(cname) {
     }
     return "";
 }
+
+export function getIdFromCookie() {
+    const cookie = getCookie("jwt");
+    if (!cookie) return undefined;
+
+    return JSON.parse(atob(getCookie("jwt")
+        .split('.')[1]))
+        .id;
+}

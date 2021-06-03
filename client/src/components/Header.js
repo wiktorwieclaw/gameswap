@@ -16,10 +16,9 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import {useHistory} from "react-router";
 import {NavLink} from "react-router-dom";
+import {getIdFromCookie} from "../common";
 
-// TODO: merge headers and change the render output depending on state
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     grow: {
         flexGrow: 1,
     },
@@ -94,7 +93,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header() {
-    const isLoggedIn = true; // todo
+    const id = getIdFromCookie();
+
+    const isLoggedIn = id !== undefined;
     const classes = useStyles();
     const history = useHistory();
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -102,14 +103,14 @@ export default function Header() {
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const handleProfileMenuOpen = () => {
-        history.push('/account/1') // todo change number
+        history.push(`/account/${id}`);
     };
 
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
     };
 
-    const handleMobileMenuOpen = (event) => {
+    const handleMobileMenuOpen = event => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
@@ -189,7 +190,6 @@ export default function Header() {
                                         inputProps={{'aria-label': 'search'}}
                                     />
                                 </div>
-                                {/*<div className={classes.grow}/>*/}
                                 <div className={classes.sectionDesktop}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <Badge badgeContent={4} color="secondary">
