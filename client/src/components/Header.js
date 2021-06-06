@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,7 +16,12 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import {useHistory} from "react-router";
 import {NavLink} from "react-router-dom";
-import {getIdFromCookie} from "../common";
+import Drawer from '@material-ui/core/Drawer';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import {Divider, List, ListItem, ListItemText} from "@material-ui/core";
+import {getIdFromCookie, logout} from '../common'
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
     grow: {
@@ -89,7 +94,22 @@ const useStyles = makeStyles(theme => ({
         width: "100%",
         alignItems: "center"
     },
-    toolbar: theme.mixins.toolbar
+    toolbar: theme.mixins.toolbar,
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-end',
+    },
 }));
 
 export default function Header() {
@@ -98,6 +118,7 @@ export default function Header() {
     const isLoggedIn = id !== undefined;
     const classes = useStyles();
     const history = useHistory();
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -166,6 +187,7 @@ export default function Header() {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
+                        onClick={() => setIsDrawerOpen(!isDrawerOpen)}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -230,6 +252,33 @@ export default function Header() {
                 </Toolbar>
             </AppBar>
             <div style={{paddingBottom: "25px"}}/>
+            <Drawer
+                className={classes.drawer}
+                variant="persistent"
+                anchor="left"
+                open={isDrawerOpen}
+                classes={{
+                    paper: classes.drawerPaper,
+                }}
+            >
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
+                        <ChevronLeftIcon />
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    <ListItem button>
+                        <ListItemText primary={'About Us'} />
+                    </ListItem>
+                    {
+                        isLoggedIn ?
+                        <ListItem button onClick={() => {logout(); history.push('/intro')}}>
+                            <ListItemText primary={'Logout'} />
+                        </ListItem> : <div/>
+                    }
+                </List>
+            </Drawer>
             {renderMobileMenu}
         </div>
     );

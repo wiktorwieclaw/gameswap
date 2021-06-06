@@ -108,7 +108,14 @@ async function login(req, res) {
         .send(foundUser);
 }
 
+async function logout(req, res) {
+    res.status(202)
+        .clearCookie('jwt')
+        .send('cookie cleared')
+}
+
 module.exports = {
     register,
-    login
+    login,
+    logout
 }

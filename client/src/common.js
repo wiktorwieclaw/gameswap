@@ -40,3 +40,9 @@ export function getIdFromCookie() {
         .split('.')[1]))
         .id;
 }
+
+export function logout() {
+    axios.post(
+        'http://localhost:3001/auth/logout'
+    )
+}
