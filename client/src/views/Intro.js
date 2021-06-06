@@ -47,9 +47,6 @@ export default function Intro() {
 
     return (
         <Grid className={classes.root} container direction={"column"}>
-            <Grid item xs={12}>
-                <Header/>
-            </Grid>
             <Grid item container justify={"center"} className={classes.main}>
                 <Grid item md={1} xs={0}/>
                 <Grid item md={4} xs={8}>

@@ -3,11 +3,11 @@ import Header from "../components/Header";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import React, {useState} from "react";
-import {login} from "../common"
+import {login} from "../auth"
 import {useHistory} from "react-router";
 import {useFormStyles} from "../styles";
 
-export default function SignIn() {
+export default function SignIn(props) {
     const history = useHistory();
     const classes = useFormStyles();
     const [errorMsg, setErrorMsg] = useState('');
@@ -19,16 +19,14 @@ export default function SignIn() {
 
         login(email, password)
             .then(() => {
-                history.push('/main');
+                props.setIsLoggedIn(true);
+                history.push('/');
             })
             .catch(err => {setErrorMsg(err.response.data)});
     };
 
     return (
         <Grid container direction={"column"}>
-            <Grid item xs={12}>
-                <Header/>
-            </Grid>
             <Grid item container justify={"center"}>
                 <Grid item xs={0} sm={2}/>
                 <Grid item xs={10} sm={4} md={3}>
@@ -77,6 +75,7 @@ export default function SignIn() {
                                 color="primary"
                                 className={classes.submit}
                                 onClick={handleSubmit}
+                                type={'submit'}
                             >
                                 Sign In
                             </Button>

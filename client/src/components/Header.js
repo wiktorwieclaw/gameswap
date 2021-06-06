@@ -19,7 +19,7 @@ import {NavLink} from "react-router-dom";
 import Drawer from '@material-ui/core/Drawer';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import {Divider, List, ListItem, ListItemText} from "@material-ui/core";
-import {getIdFromCookie, logout} from '../common'
+import {getIdFromCookie, logout} from '../auth'
 
 const drawerWidth = 240;
 
@@ -112,7 +112,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Header() {
+export default function Header(props) {
     const id = getIdFromCookie();
 
     const isLoggedIn = id !== undefined;
@@ -191,7 +191,7 @@ export default function Header() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <NavLink to={isLoggedIn ? '/main' : '/intro'} className={classes.titleLink}>
+                    <NavLink to={'/'} className={classes.titleLink}>
                         <Typography className={classes.title} variant="h6" noWrap>
                             gameswap
                         </Typography>
@@ -273,7 +273,13 @@ export default function Header() {
                     </ListItem>
                     {
                         isLoggedIn ?
-                        <ListItem button onClick={() => {logout(); history.push('/intro')}}>
+                        <ListItem button onClick={() => {
+                            props.setIsLoggedIn(false);
+                            setIsDrawerOpen(false);
+                            logout().then(() => {
+                                history.push('/');
+                            });
+                        }}>
                             <ListItemText primary={'Logout'} />
                         </ListItem> : <div/>
                     }

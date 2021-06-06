@@ -7,7 +7,7 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import {register} from "../common"
+import {register} from "../auth"
 import {useHistory} from "react-router";
 import {useFormStyles} from "../styles";
 import Header from "../components/Header";
@@ -27,14 +27,13 @@ export default function SignUp() {
             .then(() => {
                 history.push('/login');
             })
-            .catch(err => {setErrorMsg(err.response.data)});
+            .catch(err => {console.log(err.response.data); setErrorMsg(err.response.data)});
     };
 
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
             <div className={classes.paper}>
-                <Header/>
                 <Avatar className={classes.avatar}/>
                 <Typography component="h1" variant="h5">
                     Sign up
@@ -100,12 +99,12 @@ export default function SignUp() {
                         </Grid>
                     </Grid>
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
                         onClick={handleSubmit}
+                        type={'submit'}
                         >
                         Sign Up
                     </Button>

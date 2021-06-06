@@ -2,20 +2,6 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-export function login(email, password) {
-    return axios.post(
-        'http://localhost:3001/auth/login',
-        {email: email, password: password}
-    );
-}
-
-export function register(name, surname, email, password) {
-    return axios.post(
-        'http://localhost:3001/auth/register',
-        {name: name, surname: surname, email: email, password: password}
-    );
-}
-
 export function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -32,17 +18,44 @@ export function getCookie(cname) {
     return "";
 }
 
+export function isLoggedIn() {
+    const cookie = getCookie('jwt');
+    return cookie !== "";
+}
+
 export function getIdFromCookie() {
-    const cookie = getCookie("jwt");
-    if (!cookie) return undefined;
+    if (!isLoggedIn()) {
+        return undefined;
+    }
 
     return JSON.parse(atob(getCookie("jwt")
         .split('.')[1]))
         .id;
 }
 
+export function login(email, password) {
+    return axios.post(
+        'http://localhost:3001/auth/login',
+        {email: email, password: password}
+    );
+}
+
+export function register(name, surname, email, password) {
+    return axios.post(
+        'http://localhost:3001/auth/register',
+        {name: name, surname: surname, email: email, password: password}
+    );
+}
+
 export function logout() {
-    axios.post(
+    return axios.post(
         'http://localhost:3001/auth/logout'
-    )
+    );
+}
+
+export default {
+    isLoggedIn,
+    login,
+    register,
+    logout
 }

@@ -13,7 +13,6 @@ export default function MainPage() {
     return (
         <Grid container direction={"column"}>
             <Grid item xs={12}>
-                <Header/>
                 <div className={classes.toolbar}/>
                 <br/>
             </Grid>

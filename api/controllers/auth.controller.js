@@ -55,7 +55,7 @@ async function register(req, res) {
     if (error) return res.status(400).send(error.details[0].message);
 
     const emailExists = User.findOne({where: {email: req.body.email}});
-    if (emailExists === undefined) {
+    if (emailExists !== undefined) {
         return res.status(400).send('email already exists');
     }
 
@@ -72,9 +72,7 @@ async function register(req, res) {
         })
         .catch(err => {
             console.log(err.message);
-            res.status(500).send({
-                messages: err.message
-            });
+            res.status(500).send(err.message);
         });
 }
 

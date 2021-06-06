@@ -41,7 +41,6 @@ export default function Account(props) {
     return (
         <Grid container className={"root"} direction={"column"} alignItems={"center"}>
             <Grid item xs={12}>
-                <Header/>
                 <div className={classes.toolbar}/>
                 <br/>
             </Grid>
