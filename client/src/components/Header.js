@@ -5,14 +5,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import {useHistory} from "react-router";
 import {NavLink} from "react-router-dom";
@@ -20,6 +18,7 @@ import Drawer from '@material-ui/core/Drawer';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import {Divider, List, ListItem, ListItemText} from "@material-ui/core";
 import {getIdFromCookie, logout} from '../auth'
+import axios from "axios";
 
 const drawerWidth = 240;
 
@@ -110,6 +109,12 @@ const useStyles = makeStyles(theme => ({
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
     },
+    clearIndicator: {
+        color: 'black'
+    },
+    popupIndicator: {
+        color: 'black'
+    }
 }));
 
 export default function Header(props) {
@@ -120,6 +125,8 @@ export default function Header(props) {
     const history = useHistory();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const [searchText, setSearchText] = useState("");
+    const [foundTitles, setFoundTitles] = useState([]);
 
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -135,35 +142,29 @@ export default function Header(props) {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const setSearchTextWithAutocomplete = text => {
+        setSearchText(text);
+        axios.get(
+            `http://localhost:3001/game/title/${text}`
+        ).then(res => {
+            console.log(res.data);
+            setFoundTitles(res.data);
+        });
+    }
+
     const menuId = 'primary-search-account-menu';
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
         <Menu
             anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            anchorOrigin={{vertical: 'top', horizontal: 'right'}}
             id={mobileMenuId}
             keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{vertical: 'top', horizontal: 'right'}}
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
-                <IconButton aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="secondary">
-                        <MailIcon />
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton aria-label="show 11 new notifications" color="inherit">
-                    <Badge badgeContent={11} color="secondary">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
-            </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
                     aria-label="account of current user"
@@ -171,7 +172,7 @@ export default function Header(props) {
                     aria-haspopup="true"
                     color="inherit"
                 >
-                    <AccountCircle />
+                    <AccountCircle/>
                 </IconButton>
                 <p>Profile</p>
             </MenuItem>
@@ -189,7 +190,7 @@ export default function Header(props) {
                         aria-label="open drawer"
                         onClick={() => setIsDrawerOpen(!isDrawerOpen)}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <NavLink to={'/'} className={classes.titleLink}>
                         <Typography className={classes.title} variant="h6" noWrap>
@@ -203,26 +204,32 @@ export default function Header(props) {
                                     <div className={classes.searchIcon}>
                                         <SearchIcon/>
                                     </div>
-                                    <InputBase
-                                        placeholder="Search…"
+                                    <Autocomplete
+                                        id="combo-box-demo"
+                                        options={foundTitles}
+                                        getOptionLabel={(option) => option.name}
+                                        style={{width: '20ch'}}
                                         classes={{
-                                            root: classes.inputRoot,
-                                            input: classes.inputInput,
+                                            clearIndicatorDirty: classes.clearIndicator,
+                                            popupIndicator: classes.popupIndicator
                                         }}
-                                        inputProps={{'aria-label': 'search'}}
+                                        renderInput={params => {
+                                            const {InputLabelProps, InputProps, ...rest} = params;
+
+                                            return <InputBase
+                                                placeholder="Search…"
+                                                classes={{
+                                                    root: classes.inputRoot,
+                                                    input: classes.inputInput,
+                                                }}
+                                                value={searchText}
+                                                onChange={e => setSearchTextWithAutocomplete(e.target.value)}
+                                                {...params.InputProps} {...rest}
+                                            />
+                                        }}
                                     />
                                 </div>
                                 <div className={classes.sectionDesktop}>
-                                    <IconButton aria-label="show 4 new mails" color="inherit">
-                                        <Badge badgeContent={4} color="secondary">
-                                            <MailIcon/>
-                                        </Badge>
-                                    </IconButton>
-                                    <IconButton aria-label="show 17 new notifications" color="inherit">
-                                        <Badge badgeContent={17} color="secondary">
-                                            <NotificationsIcon/>
-                                        </Badge>
-                                    </IconButton>
                                     <IconButton
                                         edge="end"
                                         aria-label="account of current user"
@@ -246,7 +253,7 @@ export default function Header(props) {
                                     </IconButton>
                                 </div>
                             </div>
-                        :
+                            :
                             <div/>
                     }
                 </Toolbar>
@@ -263,25 +270,25 @@ export default function Header(props) {
             >
                 <div className={classes.drawerHeader}>
                     <IconButton onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
-                        <ChevronLeftIcon />
+                        <ChevronLeftIcon/>
                     </IconButton>
                 </div>
-                <Divider />
+                <Divider/>
                 <List>
                     <ListItem button>
-                        <ListItemText primary={'About Us'} />
+                        <ListItemText primary={'About Us'}/>
                     </ListItem>
                     {
                         isLoggedIn ?
-                        <ListItem button onClick={() => {
-                            props.setIsLoggedIn(false);
-                            setIsDrawerOpen(false);
-                            logout().then(() => {
-                                history.push('/');
-                            });
-                        }}>
-                            <ListItemText primary={'Logout'} />
-                        </ListItem> : <div/>
+                            <ListItem button onClick={() => {
+                                props.setIsLoggedIn(false);
+                                setIsDrawerOpen(false);
+                                logout().then(() => {
+                                    history.push('/');
+                                });
+                            }}>
+                                <ListItemText primary={'Logout'}/>
+                            </ListItem> : <div/>
                     }
                 </List>
             </Drawer>
