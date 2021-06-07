@@ -22,6 +22,7 @@ const user = require('./models/user.model.js');
 const game = require('./models/game.model.js');
 const message = require('./models/message.model.js');
 const userBuyGame = require('./models/user-buy-game.model.js');
+const userSellGame = require('./models/user-sell-game.model');
 
 user.hasOne(message, {
     foreignKey: {
@@ -43,4 +44,12 @@ user.belongsToMany(game, {
 
 game.belongsToMany(user, {
     through: userBuyGame
+});
+
+user.belongsToMany(game, {
+    through: userSellGame
+});
+
+game.belongsToMany(user, {
+    through: userSellGame
 });
