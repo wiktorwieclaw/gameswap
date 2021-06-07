@@ -59,6 +59,7 @@ export default function ListOfOffers(props) {
         axios.get(`/game/byUserId/${props.userId}`)
             .then(res => {
                 setGameList(res.data);
+                console.log(res);
             })
             .catch(err => {
                 console.log(err)
@@ -101,25 +102,10 @@ export default function ListOfOffers(props) {
                     <TabPanel value={value} index={1} dir={theme.direction}>
                         <List component={"nav"}>
                             <ListItem button>
-                                <ListItemText primary={"this too"}/>
+                                <ListItemText primary={"example"}/>
                             </ListItem>
                             <ListItem button>
-                                <ListItemText primary={"this too"}/>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemText primary={"this too"}/>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemText primary={"this too"}/>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemText primary={"this too"}/>
-                            </ListItem>
-                            <ListItem>
-                                <ListItemText primary={"this too"}/>
-                            </ListItem>
-                            <ListItem>
-                                <ListItemText primary={"this too"}/>
+                                <ListItemText primary={"example"}/>
                             </ListItem>
                         </List>
                     </TabPanel>

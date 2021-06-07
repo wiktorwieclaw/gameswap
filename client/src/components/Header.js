@@ -208,7 +208,7 @@ export default function Header(props) {
                                         id="combo-box-demo"
                                         options={foundTitles}
                                         getOptionLabel={(option) => option.name}
-                                        style={{width: '20ch'}}
+                                        style={{width: '100%', minWidth: '20ch'}}
                                         clearOnBlur={false}
                                         classes={{
                                             clearIndicatorDirty: classes.clearIndicator,

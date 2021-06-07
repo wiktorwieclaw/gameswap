@@ -2,6 +2,7 @@ const dbAccess = require('../db-access');
 const igdb = require('igdb-api-node').default;
 const game = require('../models/game.model.js');
 const user = require('../models/user.model.js');
+const userBuyGame = require('../models/user-buy-game.model')
 
 const client = igdb(dbAccess.twitchClientId, dbAccess.accessToken);
 
@@ -30,6 +31,7 @@ async function findGamesByUserPk(req, res) {
             model: game,
             attributes: ['igdbId'],
             through: {
+                model: userBuyGame,
                 attributes: []
             }
         }],
@@ -38,6 +40,7 @@ async function findGamesByUserPk(req, res) {
         },
         attributes: []
     }).then(async data => {
+        console.log(data.games);
         if(!data.games.length) {
             res.send([]);
             return;
