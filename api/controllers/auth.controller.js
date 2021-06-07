@@ -54,8 +54,9 @@ async function register(req, res) {
     const {error} = registerValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const emailExists = User.findOne({where: {email: req.body.email}});
-    if (emailExists !== undefined) {
+    const emailExists = await User.findOne({where: {email: req.body.email}});
+
+    if (emailExists !== null) {
         return res.status(400).send('email already exists');
     }
 
