@@ -36,7 +36,7 @@ export default function Account(props) {
             .catch(err => {
                 console.log(err)
             })
-    });
+    }, []);
 
     return (
         <Grid container className={"root"} direction={"column"} alignItems={"center"}>

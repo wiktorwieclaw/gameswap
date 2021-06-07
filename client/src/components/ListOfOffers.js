@@ -58,13 +58,12 @@ export default function ListOfOffers(props) {
     useEffect(() => {
         axios.get(`/game/byUserId/${props.userId}`)
             .then(res => {
-                console.log(res.data);
                 setGameList(res.data);
             })
             .catch(err => {
                 console.log(err)
             })
-    });
+    }, []);
 
     return (
         <div>

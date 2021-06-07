@@ -127,6 +127,7 @@ export default function Header(props) {
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [searchText, setSearchText] = useState("");
     const [foundTitles, setFoundTitles] = useState([]);
+    const [selected, setSelected] = useState(null);
 
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -147,7 +148,6 @@ export default function Header(props) {
         axios.get(
             `http://localhost:3001/game/title/${text}`
         ).then(res => {
-            console.log(res.data);
             setFoundTitles(res.data);
         });
     }
@@ -209,9 +209,15 @@ export default function Header(props) {
                                         options={foundTitles}
                                         getOptionLabel={(option) => option.name}
                                         style={{width: '20ch'}}
+                                        clearOnBlur={false}
                                         classes={{
                                             clearIndicatorDirty: classes.clearIndicator,
                                             popupIndicator: classes.popupIndicator
+                                        }}
+                                        value={selected}
+                                        onChange={(e, newValue) => {
+                                            setSelected(newValue);
+                                            history.push(`/add-game/${newValue.id}`);
                                         }}
                                         renderInput={params => {
                                             const {InputLabelProps, InputProps, ...rest} = params;

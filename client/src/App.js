@@ -31,7 +31,7 @@ export default function App() {
                 <Route path="/intro" render={() => !isLoggedIn ? <Intro/> : <Redirect to='/'/>}/>
                 <Route path="/main" render={() => isLoggedIn ? <MainPage/> : <Redirect to='/'/>}/>
                 <Route path="/account/:id" render={props => isLoggedIn ? <Account {...props}/> : <Redirect to='/'/>}/>
-                <Route path="/add-game" render={() => isLoggedIn ? <AddGame/> : <Redirect to='/'/>}/>
+                <Route path="/add-game/:id" render={props => isLoggedIn ? <AddGame {...props}/> : <Redirect to='/'/>}/>
                 <Route path='/404' render={() => <Page404/>}/>
                 <Redirect to='/404'/>
             </Switch>

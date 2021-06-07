@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Offer() {
     const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
 
     return (
         <Card className={classes.root}>

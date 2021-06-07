@@ -19,9 +19,10 @@ app.use(cors({
   credentials: true
 }));
 
-app.use('/user', require('./routes/user.routes.js'));
-app.use('/game', require('./routes/game.routes.js'));
+app.use('/user', require('./routes/user.routes'));
+app.use('/game', require('./routes/game.routes'));
 app.use('/auth', require('./routes/auth.routes'));
+app.use('/userBuyGame', require('./routes/user-buy-game.routes'))
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}.`);

@@ -8,7 +8,7 @@ const client = igdb(dbAccess.twitchClientId, dbAccess.accessToken);
 async function findByTitle(req, res) {
     const response = await client
         .fields(['name'])
-        .limit(50)
+        .limit(10)
         .search(req.params.title)
         .request('/games');
 
@@ -59,8 +59,28 @@ async function findGamesByUserPk(req, res) {
     });
 }
 
+async function findByIdWithBoxArt(req, res) {
+    const response1 = await client
+        .fields(['name'])
+        .where(`id = ${req.params.id}`)
+        .request('/games');
+
+    const response2 = await client
+        .fields(['url'])
+        .where(`game = ${req.params.id}`)
+        .request('/covers');
+
+    const url = response2.data.length === 0 ? "" : response2.data[0].url;
+
+    res.send({
+        name: response1.data[0].name,
+        imgUrl: url
+    });
+}
+
 module.exports = {
     findById,
     findByTitle,
-    findGamesByUserPk
+    findGamesByUserPk,
+    findByIdWithBoxArt
 }
